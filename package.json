@@ -4,8 +4,9 @@
 	"description": "js-auto-qa-lessons",
 	"main": "index.js",
 	"scripts": {
-		"test": "npx playwright test",
-		"testui": "npx playwright test --ui"
+		"generate:user": "node ./src/helpers/generate.user.js",
+		"test": "npm run generate:user && npx playwright test",
+		"testui": "npm run generate:user && npx playwright test --ui"
 	},
 	"repository": {
 		"type": "git",
@@ -24,5 +25,6 @@
 	},
 	"dependencies": {
 		"playwright": "^1.57.0"
-	}
+	},
+	"type": "module"
 }
