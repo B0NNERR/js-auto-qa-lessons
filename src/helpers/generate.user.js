@@ -14,7 +14,7 @@ export default async () => {
 		userPassword,
 	};
 
-	console.log(
+	console.table(
 		`Был сгенерирован новый пользователь:
 \t User Name: \t ${userInfo.userName}
 \t User Email: \t ${userInfo.userEmail}

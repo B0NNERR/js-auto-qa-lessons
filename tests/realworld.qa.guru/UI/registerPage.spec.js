@@ -1,42 +1,22 @@
 import { test, expect } from '@playwright/test';
-import { MainPage } from '../../src/pages/realworld.qa.guru/main.page';
-import { RegisterPage } from '../../src/pages/realworld.qa.guru/register.page';
-import { fakerRU } from '@faker-js/faker';
+import { generateNewUser } from '../../../src/helpers/userInfo.helper';
 import {
-	generateNewUser,
-	getUserInfo,
-} from '../../src/helpers/generateData';
-
-test.describe('[Positive Cases][MainPage]', () => {
-	test('Переход на страницу с регистрацией', async ({ page }) => {
-		// Create main page object
-		const mainPage = new MainPage(page);
-
-		// Visit main page
-		await mainPage.open('https://realworld.qa.guru/');
-
-		// Go to register page (Sign Up)
-		await mainPage.goToRegister();
-
-		// Asserts for main scenario
-		await expect(mainPage.locatorPageHeading).toHaveText('Sign up');
-	});
-});
+	MainPage,
+	RegisterPage,
+} from '../../../src/pages/realworld.qa.guru/index';
 
 test.describe('[Positive Cases][RegisterPage]', () => {
 	let userInfo = { userName: null, userEmail: null, userPassword: null };
 
-	test.beforeAll('Получение сгенерированного пользователя', async () => {
-		userInfo = await generateNewUser();
-	});
-
 	test('Регистрация нового пользователя', async ({ page }) => {
+		userInfo = await generateNewUser();
+
 		// Create RegisterPage and MainPage object
-		const registerPage = new RegisterPage(page);
 		const mainPage = new MainPage(page);
+		const registerPage = new RegisterPage(page);
 
 		// Visit to "Register Page"
-		await registerPage.open('https://realworld.qa.guru/#/register');
+		await registerPage.open(RegisterPage.URL);
 
 		// Fill form fields
 		await registerPage.fillUserNameField(userInfo.userName);
@@ -57,11 +37,7 @@ test.describe('[Positive Cases][RegisterPage]', () => {
 		await registerPage.submitForm();
 
 		// Assert for form submit and register new USER
-		await expect(page).toHaveURL('https://realworld.qa.guru/#/');
-
-		// This is SETTER for MainPage Class
-		// I want to pass the username to the locator.
-		mainPage.userName = userInfo.userName;
+		await expect(page).toHaveURL(MainPage.URL);
 
 		// Finally check registration in Application
 		await expect(mainPage.locatorNavLinkWithUserName).toBeVisible();
