@@ -39,3 +39,6 @@ coverage/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+#temp_data
+src/pages/temp_data
