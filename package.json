@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"generate:user": "node ./src/helpers/generate.user.js",
-		"test": "npm run generate:user && npx playwright test",
-		"testui": "npm run generate:user && npx playwright test --ui"
+		"test": "npx playwright test",
+		"testui": "npx playwright test --ui",
+		"test:generate:user": "npm run generate:user && npx playwright test",
+		"testui:generate:user": "npm run generate:user && npx playwright test --ui"
 	},
 	"repository": {
 		"type": "git",
