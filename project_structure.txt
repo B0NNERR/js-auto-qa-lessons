@@ -1,0 +1,48 @@
+Структура проекта: C:\Users\Admin\Desktop\QA.GURU - JavaScript
+Дата создания отчета: 09.01.2026, 08:51:57
+==================================================
+📁 helpers/
+  📄 allure.helper.js (0.00 KB)
+  📄 getStructure.helper.js (1.89 KB)
+📄 package-lock.json (3.20 KB)
+📄 package.json (0.95 KB)
+📁 playwright-report/
+  📄 index.html (518.48 KB)
+📄 playwright.config.js (2.09 KB)
+📄 README.md (2.14 KB)
+📁 reports/
+  📁 allure-results/
+  📁 playwright-report/
+📁 test-results/
+  📄 .last-run.json (0.04 KB)
+📁 tests/
+  📁 realworld.qa.guru/
+    📁 config/
+      📄 .env (0.00 KB)
+    📁 fixtures/
+      📄 article-data.js (0.00 KB)
+      📄 test-users.json (0.00 KB)
+    📁 helpers/
+      📄 api.client.js (0.00 KB)
+      📄 user.generator.js (0.00 KB)
+    📁 pages/
+      📄 article.page.js (0.00 KB)
+      📁 auth/
+        📄 login.page.js (1.07 KB)
+        📄 register.page.js (1.36 KB)
+      📄 base.page.js (0.13 KB)
+      📄 editor.page.js (0.00 KB)
+      📄 home.page.js (0.93 KB)
+      📄 profile.page.js (0.00 KB)
+    📁 specs/
+      📁 article/
+        📄 create-article.spec.js (0.00 KB)
+        📄 read-article.spec.js (0.00 KB)
+      📁 auth/
+        📄 login.spec.js (1.59 KB)
+        📄 register.spec.js (1.78 KB)
+      📄 home.spec.js (3.96 KB)
+      📁 profile/
+        📄 user-profile.spec.js (0.00 KB)
+==================================================
+Всего элементов: 43
