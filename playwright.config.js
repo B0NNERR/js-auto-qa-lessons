@@ -1,4 +1,5 @@
 // @ts-check
+import { ENV } from './tests/realworld.qa.guru/config/env.js';
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -27,6 +28,7 @@ export default defineConfig({
 	reporter: 'html',
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
+		baseURL: ENV.BASE_URL,
 		/* Base URL to use in actions like `await page.goto('')`. */
 		// baseURL: 'http://localhost:3000',
 

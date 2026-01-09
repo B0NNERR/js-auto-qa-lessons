@@ -4,11 +4,10 @@
 	"description": "js-auto-qa-lessons",
 	"main": "index.js",
 	"scripts": {
-		"generate:user": "node ./src/helpers/generate.user.js",
-		"test": "npx playwright test",
-		"testui": "npx playwright test --ui",
-		"test:generate:user": "npm run generate:user && npx playwright test",
-		"testui:generate:user": "npm run generate:user && npx playwright test --ui"
+		"test": "playwright test",
+		"test:register": "playwright test tests/realworld.qa.guru/specs/auth/register.spec.js",
+		"test:ui": "playwright test --ui",
+		"test:debug": "playwright test --debug"
 	},
 	"repository": {
 		"type": "git",
@@ -23,7 +22,8 @@
 	"devDependencies": {
 		"@faker-js/faker": "^10.2.0",
 		"@playwright/test": "^1.57.0",
-		"@types/node": "^25.0.3"
+		"@types/node": "^25.0.3",
+		"dotenv": "^17.2.3"
 	},
 	"dependencies": {
 		"playwright": "^1.57.0"
