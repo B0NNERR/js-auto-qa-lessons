@@ -1,59 +1,72 @@
 # Чёткое разделение по слоям
-| Слой                      | Статус |
-| ------------------------- | ------ |
+
+| Слой                      | Статус  |
+| ------------------------- | ------- |
 | Specs (тесты)             | ✅ есть |
 | Pages (POM)               | ✅ есть |
 | Fixtures / Data           | ✅ есть |
 | Helpers (API / генерация) | ✅ есть |
 | Config                    | ✅ есть |
+
 ### Это критически важно для:
+
 - изоляции тестов
 - масштабирования
 - поддержки CI/CD
 
 # Page Object Model реализован корректно
-pages/
- ├─ base.page.js
- ├─ home.page.js
- ├─ article.page.js
- ├─ editor.page.js
- ├─ profile.page.js
- └─ auth/
-     ├─ login.page.js
-     └─ register.page.js
+
+- pages/
+- - base.page.js
+- - home.page.js
+- - article.page.js
+- - editor.page.js
+- - profile.page.js
+- - auth/
+- - - login.page.js
+- - - register.page.js
+
 ### Плюсы:
+
 - BasePage вынесен отдельно
 - auth-страницы сгруппированы
 - нет смешивания страниц и тестов
 
 # Есть слой генерации данных
-helpers/
- └─ user.generator.js
-fixtures/
- ├─ article-data.js
- └─ test-users.json
+
+- helpers/
+- - user.generator.js
+- fixtures/
+- - article-data.js
+- - test-users.json
+
 ### Плюсы:
+
 - Разделение статических и динамических данных
 - Готов к faker.js
 
 # Specs организованы по бизнес-доменам
-specs/
- ├─ auth/
- ├─ article/
- ├─ profile/
- └─ mainPage.spec.js
+
+- specs/
+- - auth/
+- - article/
+- - profile/
+- - mainPage.spec.js
+
 ### Это:
+
 - Eлучшает читаемость
 - Eпрощает запуск subset-ов
 - Bдеально ложится на Allure / CI
 
-
 # Итоговая оценка
+
 - ➡️ Архитектура хорошая и зрелая, не учебная.
 - ➡️ Ошибок-антипаттернов нет.
 - ➡️ Есть пространство для доведения до enterprise-уровня.
 
 # С этого момента придерживаемся строго:
+
 - ❌ Никаких page.locator() в spec
 - ❌ Никакого faker в spec
 - ✅ Один Page = одна ответственность

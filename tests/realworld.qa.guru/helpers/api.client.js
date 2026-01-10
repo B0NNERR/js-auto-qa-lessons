@@ -34,6 +34,7 @@ export class ApiClient {
 		return responseData;
 	}
 
+	// 🔐 Метод для логина через API
 	async registerUser(userData) {
 		const payload = {
 			user: {
@@ -42,25 +43,48 @@ export class ApiClient {
 				password: userData.password,
 			},
 		};
-		return await this._request('POST', '/api/users', payload);
+		return await this._request('POST', '/users', payload);
 	}
 
 	async login(email, password) {
 		const payload = {
 			user: { email, password },
 		};
-		const response = await this._request('POST', '/api/users/login', payload);
+		const response = await this._request('POST', '/users/login', payload);
 		return response.user.token;
+	}
+
+	// 🔐 Метод для получения информации о пользователе
+	async getCurrentUser(token) {
+		return await this._request('GET', '/user', null, token);
+	}
+
+	// 🔐 Метод для выхода
+	async logout(token) {
+		// В некоторых API есть endpoint для logout
+		// Если нет - просто инвалидируем токен на клиенте
+		console.log(`Logging out user with token: ${token.substring(0, 10)}...`);
+		return true;
+	}
+
+	// 🔐 Метод для проверки валидности токена
+	async validateToken(token) {
+		try {
+			await this.getCurrentUser(token);
+			return true;
+		} catch {
+			return false;
+		}
 	}
 
 	async createArticle(email, password, articleData) {
 		const token = await this.login(email, password);
 		const payload = { article: articleData };
-		return await this._request('POST', '/api/articles', payload, token);
+		return await this._request('POST', '/articles', payload, token);
 	}
 
 	async deleteArticle(email, password, slug) {
 		const token = await this.login(email, password);
-		return await this._request('DELETE', `/api/articles/${slug}`, null, token);
+		return await this._request('DELETE', `/articles/${slug}`, null, token);
 	}
 }

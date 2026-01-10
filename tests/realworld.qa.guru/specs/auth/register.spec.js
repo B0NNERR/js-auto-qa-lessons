@@ -23,7 +23,7 @@ test.describe('Регистрация нового пользователя', ()
 		// ASSERT (Проверка)
 
 		// 3. Проверяем URL после регистрации
-		await expect(page).toHaveURL('/#/'); // URL должен содержать "/#/"
+		await expect(page).toHaveURL(/\/#\/$/i); // URL должен содержать "/#/"
 
 		console.log('Тест пройден успешно!');
 	});
@@ -44,7 +44,7 @@ test.describe('Регистрация нового пользователя', ()
 		);
 
 		// Ждем редирект на главную
-		await expect(registerPage.page).toHaveURL('/#/');
+		await expect(registerPage.page).toHaveURL(/\/#\/$/i);
 
 		// Переходим обратно на регистрацию
 		await registerPage.navigate();
@@ -101,7 +101,7 @@ test.describe('Регистрация нового пользователя', ()
 			);
 
 			// Проверяем ошибку
-			const errorElement = await registerPage.successMessage;
+			const errorElement = await registerPage.errorMessages;
 			await expect(errorElement).not.toBeVisible();
 			await expect(registerPage.page).toHaveURL(registerPage.url);
 

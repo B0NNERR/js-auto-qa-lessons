@@ -5,9 +5,14 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "playwright test",
-		"test:register": "playwright test tests/realworld.qa.guru/specs/auth/register.spec.js",
 		"test:ui": "playwright test --ui",
-		"test:debug": "playwright test --debug"
+		"test:debug": "playwright test --debug",
+		"test:register": "playwright test tests/realworld.qa.guru/specs/auth/register.spec.js",
+		"test:register:ui": "playwright test tests/realworld.qa.guru/specs/auth/register.spec.js --ui",
+		"test:register:debug": "playwright test tests/realworld.qa.guru/specs/auth/register.spec.js --debug",
+		"test:login": "playwright test tests/realworld.qa.guru/specs/auth/login.spec.js",
+		"test:login:ui": "playwright test tests/realworld.qa.guru/specs/auth/login.spec.js --ui",
+		"test:login:debug": "playwright test tests/realworld.qa.guru/specs/auth/login.spec.js --debug"
 	},
 	"repository": {
 		"type": "git",

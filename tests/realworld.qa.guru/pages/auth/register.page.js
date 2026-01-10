@@ -19,7 +19,7 @@ export class RegisterPage extends BasePage {
 			usernameInput: 'input[name="username"]',
 			emailInput: 'input[placeholder="Email"]',
 			passwordInput: 'input[name="password"]',
-			signUpButton: `//button[text()=${this.buttonText}]`,
+			signUpButton: `//button[text()="${this.texts.buttonText}"]`,
 			errorMessages: '.error-messages', // Блок с ошибками
 		};
 	}

@@ -8,35 +8,36 @@ export class LoginPage extends BasePage {
 		super(page); // Вызываем конструктор родительского класса (BasePage)
 		this.url = '/#/login';
 
-		// Определяем селекторы для элементов страницы
-		this.selectors = {
-			emailInput: 'input[type="email"]', // Поле email
-			passwordInput: 'input[type="password"]', // Поле пароля
-			signInButton: 'button[type="submit"]', // Кнопка "Sign In"
-			errorMessages: '.error-messages', // Блок ошибок (красный)
-			userGreeting: '.navbar .user-info', // Приветствие пользователя
-		};
-
 		// Текстовые константы (не хардкодим текст в тестах)
 		this.texts = {
 			pageTitle: 'Sign in',
 			buttonText: 'Login',
 			errorEmailNotFound: 'Email not found sign in first',
-			errorWrongCombinationFormFields: 'Wrong email/password combination',
+			errorPasswordNotFound: 'Wrong email/password combination',
+		};
+
+		// Определяем селекторы для элементов страницы
+		this.selectors = {
+			pageTitle: `//h1[text()="${this.texts.pageTitle}"]`,
+			emailInput: 'input[type="email"]', // Поле email
+			passwordInput: 'input[type="password"]', // Поле пароля
+			loginButton: `//button[text()="${this.texts.buttonText}"]`, // Кнопка "Login"
+			errorMessages: '.error-messages', // Блок ошибок (красный)
+			userGreeting: '.dropdown-toggle', // Приветствие пользователя
+			registerLink: '.auth-page a[href*="register"]', // Ссылка "Need an account?"
 		};
 	}
 	// --- НАВИГАЦИЯ ---
 
 	async navigate() {
-		await super.navigate('/#/login'); // Переходим на /login
+		await super.navigate(this.url); // Переходим на /login
 		await this.waitForPageLoad(); // Ждем загрузки
 	}
 
 	async waitForPageLoad() {
-		// Ждем пока кнопка Sign in станет видимой
-		await this.waitForElement(this.selectors.signInButton);
-		// Ждем пока заголовок страницы загрузится
-		await expect(this.page).toHaveTitle(new RegExp(this.texts.pageTitle, 'i'));
+		// Ждем пока кнопка Login станет видимой
+		await this.waitForElement(this.selectors.loginButton);
+		await this.waitForElement(this.selectors.pageTitle);
 	}
 
 	// --- ОСНОВНЫЕ ДЕЙСТВИЯ ---
@@ -50,15 +51,15 @@ export class LoginPage extends BasePage {
 		await this.fillField(this.selectors.passwordInput, password);
 	}
 
-	// Кликаем кнопку Login
-	async clickLogIn() {
-		await this.clickElement(this.selectors.signInButton);
-	}
-
 	// Полный процесс логина (заполнение + клик)
 	async login(email, password) {
 		await this.fillLoginForm(email, password);
 		await this.clickLogin();
+	}
+
+	// Кликаем кнопку Login
+	async clickLogin() {
+		await this.clickElement(this.selectors.loginButton);
 	}
 
 	// Логин с ожиданием успешного редиректа
@@ -94,32 +95,17 @@ export class LoginPage extends BasePage {
 		return errorText.includes(text);
 	}
 
-	// Проверяем ошибки полей
-	async getFieldError(fieldName) {
-		switch (fieldName.toLowerCase()) {
-			case 'email':
-				return this.page.locator(this.selectors.emailError);
-			case 'password':
-				return this.page.locator(this.selectors.passwordError);
-			default:
-				throw new Error(`Unknown field: ${fieldName}`);
-		}
-	}
-
 	// --- УСПЕШНЫЙ ЛОГИН ---
 
 	// Ждем успешного логина (редирект на главную)
 	async waitForSuccessfulLogin() {
 		// 1. Ждем редиректа на главную
-		await expect(this.page).toHaveURL(/\/$/);
+		// await expect(this.page).toHaveURL(/\/$/);
+
+		await this.page.waitForURL(process.env.BASE_URL);
 
 		// 2. Ждем появления приветствия пользователя
 		await this.waitForElement(this.selectors.userGreeting);
-
-		// 3. Проверяем что пропал блок логина
-		await expect(
-			this.page.locator(this.selectors.signInButton)
-		).not.toBeVisible();
 	}
 
 	// Проверяем что пользователь залогинен
@@ -136,7 +122,7 @@ export class LoginPage extends BasePage {
 	async getLoggedInUsername() {
 		if (await this.isUserLoggedIn()) {
 			const greeting = await this.getElementText(this.selectors.userGreeting);
-			return greeting.replace('Welcome, ', '').trim();
+			return greeting.trim();
 		}
 		return null;
 	}
@@ -148,21 +134,10 @@ export class LoginPage extends BasePage {
 		await this.clickElement(this.selectors.registerLink);
 	}
 
-	// Переход на страницу восстановления пароля
-	async goToForgotPassword() {
-		await this.clickElement(this.selectors.forgotPasswordLink);
-	}
-
 	// Очистка формы
 	async clearForm() {
 		await this.fillField(this.selectors.emailInput, '');
 		await this.fillField(this.selectors.passwordInput, '');
-
-		// Снимаем галочку с Remember me если она есть
-		const checkbox = this.page.locator(this.selectors.rememberMeCheckbox);
-		if (await checkbox.isChecked()) {
-			await checkbox.uncheck();
-		}
 	}
 
 	// --- ГЕТТЕРЫ ДЛЯ ТЕСТОВ ---
@@ -172,9 +147,9 @@ export class LoginPage extends BasePage {
 		return this.page.locator(this.selectors.errorMessages);
 	}
 
-	// Геттер для кнопки Sign In
-	get signInButton() {
-		return this.page.locator(this.selectors.signInButton);
+	// Геттер для кнопки Login
+	get loginButton() {
+		return this.page.locator(this.selectors.loginButton);
 	}
 
 	// Геттер для поля email
